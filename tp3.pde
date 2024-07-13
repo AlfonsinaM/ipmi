@@ -1,0 +1,67 @@
+//Morales ALfonsina COM3
+//https://youtu.be/Z8fSbffIaAw
+PImage imagen;  
+int diamondSize = 50; // tamaño de los diamantes
+int colorA = 0; // color negro
+int colorB = 255; // color blanco
+int tileSize = 100; // tamaño de cada cuadro del ajedrez
+
+void setup() {
+  size(800, 400);
+  background(255); // color fondo
+  frameRate(2); // velocidad de la animación
+  imagen = loadImage("programacion.jpeg"); // imagen
+}
+
+void draw() {
+  background(225);
+
+  // patron de ajedrez como fondo
+  for (int y = 0; y < height; y += tileSize) {
+    for (int x = 0; x < width; x += tileSize) {
+      if ((x / tileSize + y / tileSize) % 2 == 0) {
+        fill(colorA); // color negro
+      } else {
+        fill(colorB); // color blanco
+      }
+      rect(x, y, tileSize, tileSize);
+    }
+  }
+
+  // los diamantes arriba del patrón de ajedrez
+  for (int y = 0; y < height; y += diamondSize * 2) {
+    for (int x = 0; x < width; x += diamondSize * 2) {
+      int posX = x + diamondSize;
+      int posY = y + diamondSize;
+      drawDiamond(posX, posY, diamondSize, colorA);
+    }
+  }
+
+  // intercambiar los colores para el efecto de animación
+  int tempColor = colorA;
+  colorA = colorB;
+  colorB = tempColor;
+
+  image(imagen, 0, 0, 400, 400); // Imagen de la obra
+}
+
+// animación de los diamantes de arriba
+void drawDiamond(int x, int y, int size, int fillColor) {
+  fill(fillColor);
+  noStroke();
+  beginShape();
+  vertex(x - size / 2, y);
+  vertex(x, y - size / 2);
+  vertex(x + size / 2, y);
+  vertex(x, y + size / 2);
+  endShape(CLOSE);
+} 
+ 
+  
+  
+
+// función que calcula el tamaño de los diamantes
+double calcularTileSize(double ancho, double alto) {
+  double tamaño = ancho * alto;
+  return tamaño;
+}
